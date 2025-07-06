@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["user_id", "role", "quota_limit", "allowed_routes"],
+  "properties": {
+    "user_id": { "type": "string" },
+    "role": { "type": "string" },
+    "quota_limit": { "type": "integer" },
+    "usage": { "type": "integer" },
+    "allowed_routes": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}
