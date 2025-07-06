@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["output_type", "destination"],
+  "properties": {
+    "output_type": {
+      "type": "string",
+      "enum": ["json", "csv"]
+    },
+    "destination": { "type": "string" },
+    "compression": { "type": "boolean" },
+    "include_logs": { "type": "boolean" }
+  }
+}
