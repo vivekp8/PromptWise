@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["prompt_id", "content", "model"],
+  "properties": {
+    "prompt_id": { "type": "string" },
+    "content": { "type": "string" },
+    "model": {
+      "type": "string",
+      "enum": ["text", "data", "default"]
+    },
+    "timestamp": { "type": "string", "format": "date-time" }
+  }
+}
