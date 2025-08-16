@@ -1,0 +1,27 @@
+{
+  "pdf_export": {
+    "session_id": "s_1001",
+    "title": "Startup Naming Ideas",
+    "export_type": "pdf",
+    "content": [
+      {
+        "role": "user",
+        "message": "Suggest 5 startup names for a note app."
+      },
+      {
+        "role": "ai",
+        "message": "1. NoteNest\n2. Jotly\n3. ThoughtDrop..."
+      }
+    ],
+    "token_count": 235
+  },
+  "json_export": {
+    "session_id": "s_1001",
+    "messages": [...],
+    "metadata": {
+      "model": "gpt-4",
+      "exported_by": "admin_402",
+      "timestamp": "2025-07-05T09:45:00Z"
+    }
+  }
+}

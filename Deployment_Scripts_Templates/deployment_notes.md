@@ -1,0 +1,3 @@
+- Supports Heroku, Railway, or self-hosted Docker
+- Seed script auto-creates roles: Admin, Editor
+- Requires Redis if using background tasks (export/webhooks)

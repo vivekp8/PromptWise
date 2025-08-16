@@ -1,31 +1,58 @@
-from modules.Chat_Session_Management.session_controller import start_session
-from modules.Security_Access_Control.auth_manager import verify_access
-from modules.Prompt_Engine.prompt_router import route_prompt
-from modules.Export_Integration_System.exporter import export
+from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
+import os
 
-# Step 1: Start a new session
-user_id = "user123"
-session = start_session(user_id)
-print(f"Session started for {user_id}: {session['session_id']}")
+# 🌐 Base directory and DB setup
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.path.join(BASE_DIR, "PromptWise", "database", "promptwise.db")
 
-# Step 2: Verify user's access to use Prompt Engine
-access = verify_access(user_id, "Prompt_Engine")
+# ✅ Ensure DB file and directory exist
+os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
+if not os.path.isfile(DB_PATH):
+    open(DB_PATH, "a").close()
 
-if access["status"] == "granted":
-    # Step 3: Prepare prompt input
-    prompt_data = {
-        "prompt_id": "p001",
-        "content": "text: What is the theory of relativity?",
-        "model": "text"
-    }
+# 🚀 Initialize FastAPI
+app = FastAPI(title="PromptWise API", version="1.0.0")
 
-    # Step 4: Route prompt
-    result = route_prompt(prompt_data)
-    print("Routing Result:", result)
+# 🔒 CORS configuration
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # 🔐 Restrict this in production
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-    # Step 5: Export final output
-    exported = export(result, format="json")
-    print("Exported Output:\n", exported)
+# 📦 Mount static assets (for favicons, etc.)
+STATIC_DIR = os.path.join(BASE_DIR, "PromptWise", "static")
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
-else:
-    print("Access Denied:", access["reason"])
+# 🔗 Include module routers
+from PromptWise.Prompt_Dashboard import prompt_routes
+from PromptWise.Admin_Dashboard import auth_routes, admin_routes, admin_export, audit_routes
+
+app.include_router(prompt_routes.router)
+app.include_router(auth_routes.router)
+app.include_router(admin_routes.router)
+app.include_router(admin_export.router)
+app.include_router(audit_routes.router)
+
+# ✅ Health check
+@app.get("/")
+def health_check():
+    return {"status": "running", "app": "PromptWise Backend"}
+
+# 🌟 Unified favicon route (supports light/dark mode)
+@app.get("/favicon.ico", include_in_schema=False)
+def serve_favicon(request: Request):
+    # Check optional header sent from frontend
+    prefers_dark = request.headers.get("X-DARK-MODE", "false") == "true"
+    selected = "favicon-dark.ico" if prefers_dark else "favicon-light.ico"
+    filepath = os.path.join(STATIC_DIR, selected)
+
+    # Fall back if file is missing
+    if not os.path.isfile(filepath):
+        filepath = os.path.join(STATIC_DIR, "favicon.ico")  # optional fallback
+    return FileResponse(filepath)

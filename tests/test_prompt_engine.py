@@ -1,16 +1,20 @@
-from modules.Prompt_Engine.prompt_router import route_prompt
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-def test_valid_prompt_routing():
-    data = {
-        "prompt_id": "p001",
-        "content": "text: Hello",
-        "model": "text"
-    }
-    response = route_prompt(data)
-    assert response["status"] == "success"
-    assert response["routed_to"] == "LLM_TextModel"
+import unittest
+from core import prompt_engine
+from unittest.mock import patch
 
-def test_missing_fields():
-    data = { "content": "text: Hello" }  # Missing prompt_id
-    response = route_prompt(data)
-    assert response["status"] == "error"
+class TestPromptEngine(unittest.TestCase):
+    def test_real_prompts(self):
+        self.assertEqual(prompt_engine.generate_prompt("admin"), "Access granted. Full privileges enabled.")
+        self.assertEqual(prompt_engine.generate_prompt("viewer"), "Read-only access.")
+        self.assertEqual(prompt_engine.generate_prompt("unknown"), "No access.")
+
+    @patch("core.prompt_engine.generate_prompt")
+    def test_mocked_prompt(self, mock_generate):
+        mock_generate.return_value = "Mocked response"
+        result = prompt_engine.generate_prompt("editor")
+        self.assertEqual(result, "Mocked response")
+

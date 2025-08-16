@@ -1,0 +1,15 @@
+{
+  "POST /auth/login": {
+    "email": "admin@promptwise.in",
+    "password": "••••••••"
+  },
+  "POST /auth/pin-verify": {
+    "user_id": "u_111",
+    "pin": "****"
+  },
+  "PATCH /roles/promote": {
+    "target_user_id": "u_200",
+    "new_role": "admin",
+    "verified_by_pin": true
+  }
+}

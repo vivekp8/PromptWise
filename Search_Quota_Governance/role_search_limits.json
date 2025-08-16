@@ -1,0 +1,5 @@
+{
+  "guest": { "max_queries_per_day": 3 },
+  "editor": { "max_queries_per_day": 25 },
+  "admin": { "max_queries_per_day": 100, "override": true }
+}

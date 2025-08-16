@@ -1,0 +1,11 @@
+{
+  "event_id": "a_3821",
+  "event_type": "prompt_approval",
+  "user_id": "vivek_admin",
+  "timestamp": "2025-07-12T10:24:00Z",
+  "details": {
+    "prompt_id": "p_2042",
+    "action": "approved",
+    "comment": "Clean structure, ready for publishing."
+  }
+}

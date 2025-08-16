@@ -1,0 +1,18 @@
+{
+  "POST /session/start": {
+    "prompt_id": "p_1001",
+    "user_id": "u_207",
+    "tags": ["startup", "naming"],
+    "forked_from": null
+  },
+  "POST /session/message": {
+    "session_id": "s_1092",
+    "message": {
+      "role": "user",
+      "content": "Suggest three brand names for a note app"
+    }
+  },
+  "GET /session/:id": {
+    "session_id": "s_1092"
+  }
+}

@@ -1,0 +1,20 @@
+[
+  {
+    "id": "p_1089",
+    "title": "Generate onboarding checklist",
+    "category": "HR",
+    "tags": ["checklist", "employee"]
+  },
+  {
+    "id": "p_1090",
+    "title": "Refactor legacy code",
+    "category": "Engineering",
+    "tags": ["refactor", "tech-debt"]
+  },
+  {
+    "id": "p_1091",
+    "title": "Write launch email",
+    "category": "Marketing",
+    "tags": ["email", "announcement"]
+  }
+]

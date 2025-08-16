@@ -1,0 +1,20 @@
+{
+  "vivek_admin": {
+    "name": "Vivek Potnuru",
+    "email": "vivekpotnuru8@gmail.com",
+    "role": "superadmin",
+    "permissions": [
+      "approve_prompt",
+      "reject_prompt",
+      "assign_roles",
+      "view_metrics",
+      "toggle_llm_provider",
+      "resolve_flags",
+      "view_audit_log",
+      "theme_control",
+      "view_export_history",
+      "reset_user_password"
+    ],
+    "password": "promptwise123"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "event": "export.completed",
+  "source": "promptwise",
+  "export_type": "docx",
+  "session_id": "s_1001",
+  "download_url": "https://promptwise.in/api/export/s_1001.docx",
+  "exported_by": "u_912",
+  "timestamp": "2025-07-05T09:45:03Z"
+}

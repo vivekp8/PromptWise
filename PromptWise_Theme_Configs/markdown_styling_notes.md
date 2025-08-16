@@ -1,0 +1,3 @@
+- Use monospace for code blocks, border + padding
+- Tables = striped with zebra rows
+- Emojis supported via unicode

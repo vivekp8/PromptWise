@@ -1,0 +1,3 @@
+- Users can rate each session only once
+- Anonymous ratings allowed (no login) for Guests
+- Low-rated prompts auto-flag after 3 ratings < 2 stars

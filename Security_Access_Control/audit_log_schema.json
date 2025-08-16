@@ -1,0 +1,10 @@
+{
+  "log_id": "log_0911",
+  "timestamp": "2025-07-04T08:55:00Z",
+  "actor_user": "admin_442",
+  "action": "PROMOTE_USER",
+  "target_user": "editor_233",
+  "outcome": "success",
+  "ip_address": "192.168.1.41",
+  "notes": "Via PIN challenge flow"
+}

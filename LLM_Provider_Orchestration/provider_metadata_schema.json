@@ -1,0 +1,8 @@
+{
+  "provider": "gpt-4",
+  "timestamp": "2025-07-05T12:34:00Z",
+  "latency_ms": 2140,
+  "success": true,
+  "model_version": "0613",
+  "quota_remaining": 8400
+}

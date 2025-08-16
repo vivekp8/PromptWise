@@ -1,0 +1,8 @@
+{
+  "POST /feedback/rate": {
+    "target_type": "session",
+    "target_id": "s_1092",
+    "rating": 5,
+    "comment": "Loved the LLM suggestions."
+  }
+}

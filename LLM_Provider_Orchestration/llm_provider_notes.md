@@ -1,0 +1,3 @@
+- Fallback triggers after 5xx or timeout > 4s
+- Admins can set provider priority in `/settings/llm-routing`
+- Logs are sent to Metrics + AuditLog if sensitive role

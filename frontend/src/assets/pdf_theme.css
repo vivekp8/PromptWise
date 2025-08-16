@@ -1,0 +1,23 @@
+@page {
+  size: A4;
+  margin: 2cm;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  color: #222;
+  background-color: #fff;
+  line-height: 1.6;
+}
+
+h1, h2, h3 {
+  color: #004080;
+  margin-top: 1em;
+}
+
+pre, code {
+  background-color: #f4f4f4;
+  padding: 0.5em;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+}

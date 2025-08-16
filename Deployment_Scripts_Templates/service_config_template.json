@@ -1,0 +1,6 @@
+{
+  "env": "production",
+  "enable_metrics": true,
+  "rate_limit_per_min": 60,
+  "session_timeout_min": 45
+}

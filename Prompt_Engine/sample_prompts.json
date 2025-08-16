@@ -1,0 +1,12 @@
+[
+  {
+    "title": "Blog Outline Creator",
+    "body": "Generate an outline for a blog post on {{topic}}.",
+    "tags": ["writing", "productivity"]
+  },
+  {
+    "title": "Interview Icebreakers",
+    "body": "List 3 icebreaker questions for a {{job_role}} interview.",
+    "tags": ["HR", "communication"]
+  }
+]

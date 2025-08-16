@@ -1,0 +1,168 @@
+			Chat session Management
+
+##chat schema
+
+{
+  "session_id": "s_1092",
+  "user_id": "u_532",
+  "prompt_id": "p_2051",
+  "model_used": "gpt-4",
+  "tags": ["creative", "brainstorm"],
+  "messages": [
+    {
+      "id": "m_001",
+      "role": "user",
+      "content": "Write a haiku about clouds",
+      "timestamp": "2025-07-04T08:50:00Z"
+    },
+    {
+      "id": "m_002",
+      "role": "ai",
+      "content": "Drifting silently, / clouds whisper to the blue sky— / a slow revelation.",
+      "timestamp": "2025-07-04T08:50:04Z"
+    }
+  ],
+  "token_count": 76,
+  "rating": null,
+  "forked_from": "s_0088"
+}
+
+# Chat Flow Notes
+
+This document collects architectural insights, LLM quirks, UX design notes, and edge case ideas as you build the chat system. It complements Section 4 of the PromptWise PRD.
+
+---
+
+## 1. Model Behavior & Routing
+
+- Default to GPT-4 unless usage exceeds daily cap
+- Consider switching to fast model for drafts / early queries
+- Add token counter to estimate when nearing max length
+- Future idea: Support user-selectable models (`/settings/chat-model`)
+
+---
+
+## 2. UX Details & Behavior
+
+- Typing indicator with animation while LLM responds
+- Auto-scroll to last message, unless user has manually scrolled up
+- Retry option for failed LLM calls (rate limit, auth errors)
+- Markdown renderer should support:
+  - Code blocks (` ``` `)
+  - Math (LaTeX if possible)
+  - Emojis and tables
+
+---
+
+## 3. Session Autosave & Restoration
+
+- Save session every 10 seconds if user is typing
+- Restore last session from local/session storage if browser crashes
+- If session is forked → assign new ID but preserve lineage
+- Allow users to rename sessions or retag mid-flow
+
+---
+
+## 4. Token Management
+
+- Display approximate token counter in sidebar or below message
+- Exceeding token limit:
+  - Prompt user to summarize previous messages
+  - Option to trim earlier turns
+- Admin analytics: track session token usage average
+
+---
+
+## 5. Edge Cases and Recovery
+
+- LLM fails silently → show alert with option to retry / save and exit
+- System error mid-reply → flag session as `corrupt` with rollback
+- Forked from deleted prompt → label origin as `(deleted)` but allow chat
+- Rate-limited guests → offer login to continue
+
+---
+
+## 6. Open Questions
+
+- Should users be able to edit previous user messages?
+- Can Admins export partial sessions (ongoing chats)?
+- How to handle model switching mid-session?
+- Offer timestamp toggle: always visible vs. only on hover?
+
+##payload examples
+
+{
+  "POST /session/start": {
+    "prompt_id": "p_1001",
+    "user_id": "u_207",
+    "tags": ["startup", "naming"],
+    "forked_from": null
+  },
+  "POST /session/message": {
+    "session_id": "s_1092",
+    "message": {
+      "role": "user",
+      "content": "Suggest three brand names for a note app"
+    }
+  },
+  "GET /session/:id": {
+    "session_id": "s_1092"
+  }
+}
+
+##README.md
+
+# Chat & Session Management
+
+Implements the live chat flow, session persistence, and metadata tracking described in Section 4 of the PromptWise Master PRD.
+
+---
+
+## Key Responsibilities
+
+- Fork sessions from prompt templates
+- Maintain parent–child lineage
+- Support real-time input/output rendering with LLM
+- Store chat histories with timestamps, tags, and tokens
+- Restore or export past sessions
+- Assign sessions to user roles
+
+---
+
+## PRD Reference: Section 4
+
+- 4.1 Session Object Structure
+- 4.2 Message Lifecycle
+- 4.3 Forking & Restoration
+- 4.4 Chat Permissions
+- 4.5 Token Counter & Feedback Hooks
+
+---
+
+## Files in This Module
+
+| File                   | Purpose                                 |
+|------------------------|-----------------------------------------|
+| `chat_schema.json`     | Data model for session + messages       |
+| `session_flow.drawio`  | Session lifecycle from fork to export   |
+| `payload_examples.json`| Sample chat payloads (frontend <-> API) |
+| `todo.md`              | Open tasks per PRD                      |
+
+---
+
+## Contributor Notes
+
+- Refer to `Security_Access_Control` for token + auth structure
+- Export logic is built in tandem with `Export_Integration_System`
+
+# Chat_Session_Management – To-Do
+
+- [ ] Define session schema (UUIDs, timestamps, token count)
+- [ ] Build fork logic and parent linkage
+- [ ] Implement Markdown rendering
+- [ ] Add autosave and restore mechanism
+- [ ] Attach session to user + permission check
+- [ ] Trigger rating and export hooks post-session
+
+
+
