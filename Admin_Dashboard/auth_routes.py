@@ -14,24 +14,27 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_HOURS = 2
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
+
 class LoginRequest(BaseModel):
     username: str
     password: str
+
 
 def create_access_token(username: str, role: str):
     payload = {
         "sub": username,
         "role": role,
-        "exp": datetime.utcnow() + timedelta(hours=ACCESS_TOKEN_EXPIRE_HOURS)
+        "exp": datetime.utcnow() + timedelta(hours=ACCESS_TOKEN_EXPIRE_HOURS),
     }
     return jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
+
 
 def log_login_event(username: str, role: str):
     entry = {
         "user_id": username,
         "event": "login_success",
         "role": role,
-        "timestamp": datetime.utcnow().isoformat()
+        "timestamp": datetime.utcnow().isoformat(),
     }
     log_path = os.path.join("data", "audit_event_schema.json")
     try:
@@ -47,6 +50,7 @@ def log_login_event(username: str, role: str):
     except Exception as e:
         print(f"[Audit] Failed to log login event: {e}")
 
+
 @router.post("/login")
 def login(data: LoginRequest):
     db = SessionLocal()
@@ -58,10 +62,6 @@ def login(data: LoginRequest):
         token = create_access_token(user.username, user.role)
         log_login_event(user.username, user.role)
 
-        return {
-            "access_token": token,
-            "token_type": "bearer",
-            "role": user.role
-        }
+        return {"access_token": token, "token_type": "bearer", "role": user.role}
     finally:
         db.close()

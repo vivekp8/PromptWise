@@ -1,6 +1,7 @@
 from fastapi import Request
 from starlette.middleware.base import BaseHTTPMiddleware
 
+
 class ThemeHeaderMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
         theme = request.headers.get("X-DARK-MODE", "false")

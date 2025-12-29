@@ -59,4 +59,3 @@ This document collects architectural insights, LLM quirks, UX design notes, and 
 - Can Admins export partial sessions (ongoing chats)?
 - How to handle model switching mid-session?
 - Offer timestamp toggle: always visible vs. only on hover?
-

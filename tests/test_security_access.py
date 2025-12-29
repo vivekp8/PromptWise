@@ -1,10 +1,12 @@
 import sys
 import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 import unittest
 from core import security_access
 from unittest.mock import patch
+
 
 class TestSecurityAccess(unittest.TestCase):
     def test_real_access(self):

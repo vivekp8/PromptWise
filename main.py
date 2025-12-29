@@ -31,7 +31,12 @@ app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 # 🔗 Include module routers
 from PromptWise.Prompt_Dashboard import prompt_routes
-from PromptWise.Admin_Dashboard import auth_routes, admin_routes, admin_export, audit_routes
+from PromptWise.Admin_Dashboard import (
+    auth_routes,
+    admin_routes,
+    admin_export,
+    audit_routes,
+)
 
 app.include_router(prompt_routes.router)
 app.include_router(auth_routes.router)
@@ -39,10 +44,12 @@ app.include_router(admin_routes.router)
 app.include_router(admin_export.router)
 app.include_router(audit_routes.router)
 
+
 # ✅ Health check
 @app.get("/")
 def health_check():
     return {"status": "running", "app": "PromptWise Backend"}
+
 
 # 🌟 Unified favicon route (supports light/dark mode)
 @app.get("/favicon.ico", include_in_schema=False)

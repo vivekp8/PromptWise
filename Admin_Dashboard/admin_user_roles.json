@@ -1,5 +1,5 @@
 {
-  "vivek_admin": {
+  "vivekp8": {
     "name": "Vivek Potnuru",
     "email": "vivekpotnuru8@gmail.com",
     "role": "superadmin",
@@ -15,6 +15,6 @@
       "view_export_history",
       "reset_user_password"
     ],
-    "password": "promptwise123"
+    "password": "vivekp8#pw"
   }
 }

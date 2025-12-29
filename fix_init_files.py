@@ -4,7 +4,7 @@ module_dirs = [
     "Chat_Session_Management",
     "Export_Integration_System",
     "Prompt_Engine",
-    "Security_Access_Control"
+    "Security_Access_Control",
 ]
 
 for module in module_dirs:

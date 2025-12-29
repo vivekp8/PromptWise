@@ -4,12 +4,13 @@ import os
 
 LOG_FILE = "audit_event_schema.json"
 
+
 def log_event(event: str, actor: str, details: dict):
     entry = {
         "timestamp": datetime.utcnow().isoformat(),
         "event": event,
         "performed_by": actor,
-        "details": details
+        "details": details,
     }
 
     if not os.path.exists(LOG_FILE):

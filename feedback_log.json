@@ -1,0 +1,37 @@
+[
+  {
+    "prompt": "I want to study",
+    "label": "farewell",
+    "feedback": "good"
+  },
+  {
+    "prompt": "hello",
+    "label": "greeting",
+    "feedback": "good"
+  },
+  {
+    "prompt": "hello",
+    "label": "greeting",
+    "feedback": "good"
+  },
+  {
+    "prompt": "hello",
+    "label": "greeting",
+    "feedback": "good"
+  },
+  {
+    "prompt": "hi",
+    "label": "greeting",
+    "feedback": "good"
+  },
+  {
+    "prompt": "who am i",
+    "label": "farewell",
+    "feedback": "good"
+  },
+  {
+    "prompt": "what is copilot",
+    "label": "question",
+    "feedback": "good"
+  }
+]

@@ -1,22 +1,30 @@
-from datetime import datetime
+import re
 
-def route_prompt(prompt_data: dict) -> dict:
-    """
-    Routes a prompt to the correct LLM endpoint based on the model tag.
-    Requires prompt_id, content, and model.
-    """
-    if not all(k in prompt_data for k in ("prompt_id", "content", "model")):
-        return {"status": "error", "message": "Missing required fields"}
 
-    model_tag = prompt_data["model"].lower()
-    routing = {
-        "text": "LLM_TextModel",
-        "data": "LLM_DataModel",
-        "default": "LLM_DefaultModel"
-    }
+def classify_prompt(text: str) -> str:
+    text = text.lower()
 
-    return {
-        "status": "success",
-        "routed_to": routing.get(model_tag, "LLM_DefaultModel"),
-        "timestamp": datetime.utcnow().isoformat()
-    }
+    # Define keyword groups
+    greeting_keywords = ["hello", "hi", "hey", "greetings", "morning", "good morning"]
+    farewell_keywords = ["bye", "goodbye", "see you", "later", "farewell"]
+
+    # Score matches
+    greeting_score = sum(1 for kw in greeting_keywords if re.search(rf"\b{kw}\b", text))
+    farewell_score = sum(1 for kw in farewell_keywords if re.search(rf"\b{kw}\b", text))
+
+    if greeting_score > farewell_score and greeting_score > 0:
+        return "greeting"
+    elif farewell_score > greeting_score and farewell_score > 0:
+        return "farewell"
+    else:
+        return "unknown"
+
+
+def route_prompt(text: str) -> str:
+    prompt_type = classify_prompt(text)
+    if prompt_type == "greeting":
+        return "Hello!"
+    elif prompt_type == "farewell":
+        return "Goodbye!"
+    else:
+        return "Unknown prompt type"

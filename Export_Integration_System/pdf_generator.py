@@ -1,30 +1,34 @@
-from weasyprint import HTML, CSS
-import markdown2
+# Export_Integration_System/pdf_generator.py
+
+import markdown
+from fpdf import FPDF
 import os
 
-# ✅ Absolute path to your CSS file
-CSS_PATH = r"D:\Projects\PromptWise\frontend\src\assets\pdf_theme.css"
 
-def markdown_to_pdf(markdown_str: str, output_path: str):
-    """
-    Converts a Markdown string to a styled PDF using WeasyPrint and custom CSS.
-    """
+def markdown_to_pdf(markdown_text: str, output_path: str) -> bool:
     try:
-        # Convert Markdown to HTML
-        html_str = markdown2.markdown(markdown_str)
+        # Save markdown to a temporary file with UTF-8 encoding
+        temp_md_path = output_path.replace(".pdf", ".md")
+        with open(temp_md_path, "w", encoding="utf-8") as f:
+            f.write(markdown_text)
 
-        # Prepare WeasyPrint HTML object
-        html = HTML(string=html_str)
+        # Convert markdown to HTML
+        html = markdown.markdown(markdown_text)
 
-        # Load custom CSS if available
-        css = CSS(filename=CSS_PATH) if os.path.exists(CSS_PATH) else None
+        # Create PDF
+        pdf = FPDF()
+        pdf.add_page()
+        pdf.set_auto_page_break(auto=True, margin=15)
+        pdf.set_font("Arial", size=12)
+        pdf.multi_cell(0, 10, html)
 
-        # Generate PDF with or without CSS
-        if css:
-            html.write_pdf(output_path, stylesheets=[css])
-        else:
-            html.write_pdf(output_path)
+        # Save PDF
+        pdf.output(output_path)
 
-        print(f"[✓] PDF successfully saved to {output_path}")
+        # Clean up temp file
+        os.remove(temp_md_path)
+        return True
+
     except Exception as e:
-        print(f"[✗] PDF generation failed: {e}")
+        print(f"Error generating PDF: {e}")
+        return False

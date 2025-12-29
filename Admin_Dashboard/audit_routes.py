@@ -3,6 +3,7 @@ from fastapi import APIRouter
 
 router = APIRouter()
 
+
 @router.get("/admin/audit-log")
 def get_audit_log():
     try:

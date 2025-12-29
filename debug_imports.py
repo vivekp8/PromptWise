@@ -1,5 +1,7 @@
 import sys, os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 
 def test_import(module_path, symbol=None):
     try:
@@ -8,6 +10,7 @@ def test_import(module_path, symbol=None):
     except ImportError as e:
         print(f"❌ Import failed: {module_path}")
         print(f"   Error: {e}")
+
 
 test_import("Chat_Session_Management.session_controller", "start_session")
 test_import("Security_Access_Control.auth_manager", "verify_access")

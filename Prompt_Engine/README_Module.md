@@ -31,4 +31,3 @@ This module handles template creation, editing, approval workflows, and forking 
 | `sample_prompts.json`       | Example prompts for dev & testing    |
 | `prompt_engine_todo.md`     | Implementation checklist             |
 | `prompt_lifecycle_notes.md` | Notes on quirks, decisions, and edge |
-

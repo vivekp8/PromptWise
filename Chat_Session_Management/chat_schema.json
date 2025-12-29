@@ -163,6 +163,3 @@ Implements the live chat flow, session persistence, and metadata tracking descri
 - [ ] Add autosave and restore mechanism
 - [ ] Attach session to user + permission check
 - [ ] Trigger rating and export hooks post-session
-
-
-

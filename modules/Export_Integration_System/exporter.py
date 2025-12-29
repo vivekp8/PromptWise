@@ -1,14 +1,32 @@
 import json
+import csv
+import io
 
-def export(data: dict, format="json") -> str:
+SUPPORTED_FORMATS = ["json", "csv"]
+
+
+def export_data(data: dict, format: str) -> str:
     """
-    Converts dict into the given format.
+    Exports data to the specified format.
+
+    Args:
+        data (dict): The data to export.
+        format (str): The format to export to ("json" or "csv").
+
+    Returns:
+        str: The exported data as a string.
     """
     if format == "json":
         return json.dumps(data, indent=2)
     elif format == "csv":
-        keys = list(data.keys())
-        values = [str(data[k]) for k in keys]
-        return f"{','.join(keys)}\n{','.join(values)}"
+        output = io.StringIO()
+        writer = csv.DictWriter(output, fieldnames=data.keys())
+        writer.writeheader()
+        writer.writerow(data)
+        return output.getvalue()
     else:
-        return "Unsupported format"
+        raise ValueError(f"Unsupported format: {format}")
+
+
+# ✅ Alias for compatibility with test_runner.py
+export = export_data

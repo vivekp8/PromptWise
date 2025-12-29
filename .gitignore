@@ -3,6 +3,11 @@
 *.env
 __pycache__/
 *.pyc
+htmlcov/
+.coverage
+.env
+*.log
+output_*.pdf
 
 # Logs and temp files
 *.log
