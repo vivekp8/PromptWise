@@ -4,12 +4,17 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: write
+
 jobs:
   tag:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Git
         run: |
@@ -34,13 +39,13 @@ jobs:
 
       - name: Create changelog
         run: |
-          git log --pretty=format:"- %s" ${{ steps.get_tag.outputs.latest }}..HEAD > CHANGELOG.md
+          git log --pretty=format:"- %s" ${{ steps.get_tag.outputs.latest }}..HEAD > CHANGELOG.md || echo "- Initial release" > CHANGELOG.md
 
       - name: Commit changelog
         run: |
           git add CHANGELOG.md
-          git commit -m "Update changelog for ${{ steps.bump.outputs.new_tag }}"
-          git push
+          git diff --staged --quiet || git commit -m "Update changelog for ${{ steps.bump.outputs.new_tag }}"
+          git push || true
 
       - name: Create tag
         run: |
