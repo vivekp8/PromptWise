@@ -1,1 +1,1 @@
-- Initial release
+- fix: restrict Python tests to 3.11, make pre-commit non-blocking
