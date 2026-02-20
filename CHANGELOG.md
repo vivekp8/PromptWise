@@ -1,1 +1,1 @@
-- fix: restrict Python tests to 3.11, make pre-commit non-blocking
+- fix: align python-tests with working test.yml runner
