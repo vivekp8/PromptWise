@@ -5,11 +5,13 @@ import axios from 'axios';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
+const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+
 function AnalyticsChart() {
     const [chartData, setChartData] = useState(null);
 
     useEffect(() => {
-        axios.get('http://127.0.0.1:8000/feedback/stats')
+        axios.get(`${API_BASE}/feedback/stats`)
             .then(res => {
                 const stats = res.data.label_distribution;
                 const labels = Object.keys(stats);

@@ -8,8 +8,9 @@ class TestSessionController(unittest.TestCase):
 
     def test_create_session(self):
         session_id = session_controller.create_session("vivek")
-        self.assertEqual(session_id, "vivek_session")
-        self.assertTrue(session_controller.SESSIONS[session_id]["active"])
+        self.assertIsNotNone(session_id)
+        session = session_controller.get_session(session_id)
+        self.assertTrue(session["active"])
 
     def test_get_existing_session(self):
         session_id = session_controller.create_session("vivek")

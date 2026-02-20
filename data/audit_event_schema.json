@@ -1,0 +1,20 @@
+[
+  {
+    "timestamp": "2026-02-17T14:25:16.758655",
+    "event": "USER_LOGIN",
+    "user_id": "admin@promptwise.com",
+    "role": "admin",
+    "details": {
+      "method": "password"
+    }
+  },
+  {
+    "timestamp": "2026-02-19T14:36:56.442127",
+    "event": "USER_LOGIN",
+    "user_id": "vivekpotnuru8@gmail.com",
+    "role": "superadmin",
+    "details": {
+      "method": "password"
+    }
+  }
+]

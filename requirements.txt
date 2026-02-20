@@ -49,3 +49,9 @@ zopfli==0.2.3.post1
 joblib
 scikit-learn
 sqlalchemy
+python-dotenv
+psycopg2-binary
+openai
+faiss-cpu
+numpy
+google-generativeai

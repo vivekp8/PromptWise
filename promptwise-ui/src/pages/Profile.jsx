@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+
 function Profile() {
     const [user, setUser] = useState(null);
     const [formData, setFormData] = useState({ full_name: '', email: '', password: '' });
@@ -17,7 +19,7 @@ function Profile() {
     const handleUpdate = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.put('http://127.0.0.1:8000/auth/profile', {
+            const res = await axios.put(`${API_BASE}/auth/profile`, {
                 user_id: user.id,
                 ...formData
             });

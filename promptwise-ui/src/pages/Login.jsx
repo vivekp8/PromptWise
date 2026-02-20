@@ -3,6 +3,8 @@ import { FaGoogle, FaMicrosoft, FaEnvelope } from 'react-icons/fa';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 
+const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+
 function Login({ toDashboard }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -12,7 +14,7 @@ function Login({ toDashboard }) {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post('http://127.0.0.1:8000/auth/login', { email, password });
+            const res = await axios.post(`${API_BASE}/auth/login`, { email, password });
             localStorage.setItem('user', JSON.stringify(res.data.user));
             navigate('/dashboard');
         } catch (err) {
@@ -29,7 +31,7 @@ function Login({ toDashboard }) {
             name: `Demo ${provider} User`
         };
         try {
-            const res = await axios.post('http://127.0.0.1:8000/auth/oauth', mockUser);
+            const res = await axios.post(`${API_BASE}/auth/oauth`, mockUser);
             localStorage.setItem('user', JSON.stringify(res.data.user));
             navigate('/dashboard');
         } catch (err) {
@@ -75,6 +77,9 @@ function Login({ toDashboard }) {
                     type="password" placeholder="Password" required
                     value={password} onChange={(e) => { setPassword(e.target.value); setError(''); }}
                 />
+                <div style={{ textAlign: 'right', marginBottom: '0.5rem' }}>
+                    <Link to="/forgot-password" style={{ fontSize: '0.8rem', color: '#94a3b8' }}>Forgot Password?</Link>
+                </div>
                 <button type="submit" style={{ background: 'var(--primary-color)' }}>
                     Sign In with Email
                 </button>

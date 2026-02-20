@@ -5,7 +5,7 @@ def classify_prompt(text: str) -> str:
     text = text.lower()
 
     # Define keyword groups
-    greeting_keywords = ["hello", "hi", "hey", "greetings", "morning", "good morning"]
+    greeting_keywords = ["hello", "hi", "hey", "greeting", "greetings", "morning", "good morning"]
     farewell_keywords = ["bye", "goodbye", "see you", "later", "farewell"]
 
     # Score matches

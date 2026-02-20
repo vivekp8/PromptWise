@@ -35,15 +35,28 @@ def classify_prompt(text: str) -> str:
     return model.predict(X_input)[0]
 
 
+from LLM_Provider_Orchestration.llm_client import llm_client
+from modules.Prompt_Engine.vector_store import vector_store
+
 def route_prompt(text: str) -> str:
     label = classify_prompt(text)
+    
     if label == "greeting":
-        return "Hello!"
+        return "Hello! How can I assist you today?"
     elif label == "farewell":
-        return "Goodbye!"
+        return "Goodbye! Have a great day!"
     elif label == "question":
-        return "Let me help you with that."
+        # RAG Logic
+        context_docs = vector_store.search(text)
+        if context_docs:
+            context = "\n".join(context_docs)
+            prompt = f"Use the following context to answer the question:\n\nContext:\n{context}\n\nQuestion: {text}"
+            return llm_client.generate_response(prompt, system_prompt="You are a helpful AI assistant for PromptWise.")
+        else:
+            # Fallback if no context found
+            return llm_client.generate_response(text)
     elif label == "intent":
-        return "Great! Let’s get started."
+        return "I understand your intent. Let's proceed with that action."
     else:
-        return "I'm not sure how to respond."
+        # For unknown or general intents, let the LLM handle it
+        return llm_client.generate_response(text)

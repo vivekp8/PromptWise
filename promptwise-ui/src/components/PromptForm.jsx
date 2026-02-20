@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 
+const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+
 function PromptForm() {
   const [userId, setUserId] = useState('');
   const [sessionId, setSessionId] = useState('');
@@ -16,7 +18,7 @@ function PromptForm() {
 
   const handleCreateSession = async () => {
     try {
-      const res = await axios.post('http://127.0.0.1:8000/session/create', { user_id: userId });
+      const res = await axios.post(`${API_BASE}/session/create`, { user_id: userId });
       setSessionId(res.data.session_id);
       setSessionData('');
     } catch (err) {
@@ -27,7 +29,7 @@ function PromptForm() {
 
   const handleGetSession = async () => {
     try {
-      const res = await axios.get(`http://127.0.0.1:8000/session/${sessionId}`);
+      const res = await axios.get(`${API_BASE}/session/${sessionId}`);
       setSessionData(JSON.stringify(res.data.session, null, 2));
     } catch (err) {
       setSessionData('Session not found.');
@@ -40,7 +42,7 @@ function PromptForm() {
     setError('');
     setFeedbackStatus('');
     try {
-      const res = await axios.post('http://127.0.0.1:8000/classify', { prompt });
+      const res = await axios.post(`${API_BASE}/classify`, { prompt });
       setLabel(res.data.label);
       setResponse(res.data.response);
     } catch (err) {
@@ -52,7 +54,7 @@ function PromptForm() {
 
   const handleFeedback = async () => {
     try {
-      const res = await axios.post('http://127.0.0.1:8000/feedback', { prompt, feedback });
+      const res = await axios.post(`${API_BASE}/feedback`, { prompt, feedback });
       setFeedbackStatus(`Feedback logged: ${res.data.status}`);
       setFeedback(''); // Clear input
     } catch (err) {
@@ -107,10 +109,36 @@ function PromptForm() {
       {error && <p style={{ color: '#ef4444' }}>{error}</p>}
 
       {response && (
-        <div style={{ animation: 'fadeIn 0.5s ease' }}>
-          <div style={{ background: 'rgba(99, 102, 241, 0.1)', borderLeft: '4px solid #6366f1', padding: '1rem', borderRadius: '0 8px 8px 0', marginBottom: '1.5rem' }}>
-            <p style={{ margin: '0 0 0.5rem 0', fontSize: '0.9rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{label}</p>
-            <p style={{ margin: 0, fontSize: '1.1rem' }}>{response}</p>
+        <div style={{ animation: 'slideUp 0.4s ease-out' }}>
+          <div style={{
+            background: 'rgba(30, 41, 59, 0.7)',
+            backdropFilter: 'blur(12px)',
+            border: '1px solid rgba(255,255,255,0.1)',
+            padding: '1.5rem',
+            borderRadius: '12px',
+            marginBottom: '1.5rem',
+            boxShadow: '0 4px 24px rgba(0,0,0,0.2)'
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
+              <span style={{
+                fontSize: '0.75rem',
+                fontWeight: 'bold',
+                color: '#818cf8',
+                textTransform: 'uppercase',
+                letterSpacing: '0.1em',
+                background: 'rgba(129, 140, 248, 0.1)',
+                padding: '0.2rem 0.6rem',
+                borderRadius: '4px'
+              }}>{label}</span>
+              <span style={{ fontSize: '0.75rem', color: '#64748b' }}>AI Response</span>
+            </div>
+            <p style={{
+              margin: 0,
+              fontSize: '1rem',
+              lineHeight: '1.6',
+              color: '#e2e8f0',
+              whiteSpace: 'pre-wrap'
+            }}>{response}</p>
           </div>
 
           <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>

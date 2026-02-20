@@ -21,7 +21,7 @@ PromptWise is a **full-stack AI interface** designed to:
 | **Frontend** | React (Vite)   | User interface for prompt input, session creation, feedback submission, and dashboard |
 | **Backend**  | FastAPI        | API endpoints for classification, session management, feedback logging |
 | **ML Engine**| Custom Classifier | Classifies prompts and generates responses (rule-based or ML-driven) |
-| **Database** | SQLite + SQLAlchemy | Stores session data and feedback entries persistently |
+| **Database** | SQLite / PostgreSQL | Stores session data and feedback entries persistently |
 
 ---
 
@@ -73,6 +73,48 @@ PromptWise is a **full-stack AI interface** designed to:
 3. **Response + label** returned to frontend.
 4. **User submits feedback** → logged in SQLite DB.
 5. **Dashboard** fetches all feedback → displays analytics.
+
+---
+
+## 🛠️ Configuration
+
+PromptWise uses environment variables for configuration. A template is provided in `Deployment_Scripts_Templates/.env.example`.
+
+### Core Variables
+- `DB_URL`: Database connection string (e.g., `postgresql://user:pass@localhost:5432/dbname` or `sqlite:///./promptwise.db`).
+- `JWT_SECRET`: Secret key for JWT token generation.
+- `CORS_ORIGINS`: Comma-separated list of allowed origins.
+
+---
+
+## 🚀 Deployment
+
+### Local Development
+1. **Backend**:
+   ```bash
+   pip install -r requirements.txt
+   uvicorn api:app --reload
+   ```
+2. **Frontend**:
+   ```bash
+   cd promptwise-ui
+   npm install
+   npm run dev
+   ```
+
+### Deployment with Docker
+PromptWise is fully containerized and can be deployed using Docker Compose.
+
+1.  **Configure environment**:
+    Create a `.env` file in the root directory (see `.env.example`).
+2.  **Launch services**:
+    ```bash
+    docker-compose up --build
+    ```
+    This will start:
+    - **Backend**: FastAPI on port `8000`.
+    - **Frontend**: Nginx serving the React app on port `8080`.
+    - **Database**: PostgreSQL on port `5432`.
 
 ---
 

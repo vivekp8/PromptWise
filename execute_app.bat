@@ -1,6 +1,5 @@
-@echo off
 echo ==========================================
-echo    🚀 STARTING PROMPTWISE FULL APP 🚀
+echo      STARTING PROMPTWISE FULL APP
 echo ==========================================
 
 :: Start Backend in a new window

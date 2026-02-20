@@ -15,31 +15,31 @@ def main():
 
     if args.create:
         session_id = session_controller.create_session(args.create)
-        print(f"✅ Session created: {session_id}")
+        print(f"[OK] Session created: {session_id}")
 
     elif args.get:
         session = session_controller.get_session(args.get)
-        print(f"🔍 Session found: {session}" if session else "❌ Session not found.")
+        print(f"[INFO] Session found: {session}" if session else "[ERROR] Session not found.")
 
     elif args.end:
         result = session_controller.end_session(args.end)
         print(
-            f"🛑 Session ended: {args.end}"
+            f"[STOP] Session ended: {args.end}"
             if result
-            else "❌ Session not found or already ended."
+            else "[ERROR] Session not found or already ended."
         )
 
     elif args.prompt:
         response = prompt_router.route_prompt(args.prompt)
-        print(f"🧭 Routed response: {response}")
+        print(f"[ROUTE] Routed response: {response}")
 
         if args.feedback:
             label = prompt_router.classify_prompt(args.prompt)
             feedback_logger.log_feedback(args.prompt, label, args.feedback)
-            print(f"📝 Feedback logged: {args.feedback}")
+            print(f"[LOG] Feedback logged: {args.feedback}")
 
     else:
-        print("⚠️ No valid command provided. Use --create, --get, --end, or --prompt.")
+        print("[WARN] No valid command provided. Use --create, --get, --end, or --prompt.")
 
 
 if __name__ == "__main__":

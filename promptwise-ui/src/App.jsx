@@ -1,68 +1,50 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, Navigate, useLocation } from 'react-router-dom';
-import PromptForm from './components/PromptForm';
-import FeedbackDashboard from './components/FeedbackDashboard';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Profile from './pages/Profile';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom';
+
+// Admin Components
+import AdminLayout from './components/layouts/AdminLayout';
+import AdminLogin from './pages/admin/AdminLogin';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AuditLogs from './pages/admin/AuditLogs';
+import AdminProfile from './pages/admin/AdminProfile';
+import UserManagement from './pages/admin/UserManagement';
+import AdminSettings from './pages/admin/AdminSettings';
+
 import './App.css';
 
-function Navbar() {
-  const [user, setUser] = useState(null);
-  const location = useLocation();
+// Admin Protected Route Wrapper
+function AdminProtectedRoute() {
+  const token = localStorage.getItem('token');
+  const role = localStorage.getItem('role');
 
-  useEffect(() => {
-    setUser(JSON.parse(localStorage.getItem('user')));
-  }, [location]);
-
-  return (
-    <nav style={{ padding: '1rem', background: 'rgba(30, 41, 59, 0.8)', backdropFilter: 'blur(10px)', borderBottom: '1px solid rgba(255,255,255,0.1)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-      <h2 style={{ margin: 0, fontSize: '1.5rem', background: 'linear-gradient(to right, #818cf8, #c084fc)', WebkitBackgroundClip: 'text', color: 'transparent' }}>PromptWise</h2>
-      <div style={{ display: 'flex', gap: '1rem' }}>
-        {user ? (
-          <>
-            <span style={{ color: '#94a3b8', alignSelf: 'center' }}>Hi, {user.full_name || 'User'}</span>
-            <Link to="/dashboard" style={{ color: 'white' }}>Dashboard</Link>
-            <Link to="/profile" style={{ color: 'white' }}>Profile</Link>
-            <button onClick={() => { localStorage.removeItem('user'); window.location.href = '/login'; }} style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem', background: '#334155' }}>Logout</button>
-          </>
-        ) : (
-          <>
-            <Link to="/login" style={{ color: 'white' }}>Login</Link>
-            <Link to="/register" style={{ color: 'white' }}>Register</Link>
-          </>
-        )}
-      </div>
-    </nav>
-  );
-}
-
-function MainApp() {
-  // Protected Route wrapper
-  const user = JSON.parse(localStorage.getItem('user'));
-  if (!user) return <Navigate to="/login" />;
-
-  return (
-    <div className="App">
-      <h1 style={{ marginTop: '2rem' }}>PromptWise AI Interface</h1>
-      <PromptForm />
-      <hr style={{ margin: '2rem 0', borderColor: 'var(--glass-border)' }} />
-      <FeedbackDashboard />
-    </div>
-  );
+  if (!token || !['admin', 'superadmin'].includes(role)) {
+    return <Navigate to="/admin/login" replace />;
+  }
+  return <Outlet />;
 }
 
 function App() {
   return (
     <Router>
-      <div style={{ minHeight: '100vh', background: 'var(--background-dark)' }}>
-        <Navbar />
+      <div style={{ minHeight: '100vh', background: 'var(--bg-dark)' }}>
         <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/dashboard" element={<MainApp />} />
-          <Route path="/" element={<Navigate to="/dashboard" />} />
+          {/* Admin Routes */}
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
+
+          <Route element={<AdminProtectedRoute />}>
+            <Route path="/admin/dashboard" element={<AdminLayout />}>
+              <Route index element={<AdminDashboard />} />
+              <Route path="users" element={<UserManagement />} />
+              <Route path="audit-logs" element={<AuditLogs />} />
+              <Route path="settings" element={<AdminSettings />} />
+              <Route path="profile" element={<AdminProfile />} />
+            </Route>
+          </Route>
+
+          {/* Default redirect to admin for now */}
+          <Route path="/" element={<Navigate to="/admin/login" replace />} />
+          <Route path="*" element={<Navigate to="/admin/login" replace />} />
         </Routes>
       </div>
     </Router>

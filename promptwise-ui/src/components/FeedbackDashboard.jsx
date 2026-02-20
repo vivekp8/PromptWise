@@ -3,13 +3,15 @@ import axios from 'axios';
 import AnalyticsChart from './AnalyticsChart';
 
 
+const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+
 function FeedbackDashboard() {
   const [feedbackList, setFeedbackList] = useState([]);
 
   useEffect(() => {
     // Poll for updates every 2 seconds for demo purposes
     const fetchFeedback = () => {
-      axios.get('http://127.0.0.1:8000/feedback/all')
+      axios.get(`${API_BASE}/feedback/all`)
         .then(res => setFeedbackList(res.data.feedback))
         .catch(err => console.error('Failed to fetch feedback:', err));
     };
@@ -20,7 +22,7 @@ function FeedbackDashboard() {
   }, []);
 
   const handleExport = () => {
-    window.open('http://127.0.0.1:8000/feedback/export', '_blank');
+    window.open(`${API_BASE}/feedback/export`, '_blank');
   };
 
   return (
